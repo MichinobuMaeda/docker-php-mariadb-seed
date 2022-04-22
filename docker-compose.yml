@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      PHP_DB_HOST: db
+      PHP_DB_USER: exampleuser
+      PHP_DB_PASSWORD: examplepass
+      PHP_DB_NAME: exampledb
+    volumes:
+      - ./volumes/html:/var/www/html
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - ./volumes/db:/var/lib/mysql
